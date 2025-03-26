@@ -4,8 +4,8 @@
     font-family: "Alegreya Sans", sans-serif;
     font-weight: 300;
     font-style: normal;
-    width: 90dvw;
-    height: 90dvh;
+    /* width: 90dvw;
+    height: 90dvh; */
     border: 1px solid #ccc;
     border-radius: 8px;
     overflow: hidden;
@@ -26,7 +26,14 @@
     top: 0;
     z-index: 10;
   }
-  
+  .btn-style{
+    /* padding-left: 1%; */
+    padding-right: 2%;
+    border-radius: 3%;
+    border: 1px inset purple;
+    text-align: center;
+    /* width: auto; */
+  }
   .header button {
     background-color: transparent;
     border: none;
@@ -50,7 +57,7 @@
   
   .grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    /* grid-template-columns: repeat(7, 1fr); */
     overflow: none;
     height: 90%;
   }
@@ -63,8 +70,7 @@
     /* justify-content: flex-start; */
     /* align-items: flex-start; */
     border: 1px solid #ddd;
-    width: 12.85dvw;
-    cursor: pointer;
+     cursor: pointer;
   }
   .fill-cell{
     width: 100%;
@@ -79,9 +85,7 @@
     font-weight:800;
     color: #712baab9; /* Different text color */
   }
-  /* .higlightcircle{
-      position: relative;
-  } */
+
   .highlightcircle::before {
     position: absolute;
     width: 1.25vw;

@@ -79,34 +79,57 @@ function Calendar (props) {
       return prev + 1;
     });
   }
- 
-  const rowHeight=90/numRows;
+  const calStyle={
+    width: `${props.width}${props.widthUnits}`,
+    height:`${props.height}${props.heightUnits}`
+  }
+  const headerStyle={
+    width:`${props.width}${props.widthUnits}`
+  }
+  const rowHeight=props.height/numRows;
   const colWidth=props.width/7
-  
+
   const gridStyle= {
-        gridTemplateColumns: `repeat(7, ${colWidth}%)`,
+        // display:'grid',
+        gridTemplateColumns: `repeat(7, ${colWidth}${props.widthUnits})`,
+        height: `${props.height}${props.heightUnits}`,
         gridAutoRows: `${rowHeight}%`,  
   };
+  // const cellStyle={
+  //     height:`${rowHeight}${props.heightUnits}`, 
+  // }
   return (
-    <div className="calendar">
+    <div  className="calendar"
+          style={calStyle}
+    >
       {/* Header */}
-      <div ref={headerRef} className="header">
-        <button onClick={handlePrev}>{'<'}</button>
+      <div ref={headerRef} 
+        className="header"
+        style={headerStyle}
+      >
+        <button 
+            onClick={handlePrev}>
+              {'<'}
+        </button>
         <span>{monthName}</span>
-        <button onClick={handleNext}>{'>'}</button>
+        <button 
+              onClick={handleNext}>
+              {'>'}
+        </button>
       </div>
 
       {/* Days of the Week */}
       <div className="days-of-week"
-           style={{ top: `${subHeaderTop}px` }}
+           style={{ top: `${subHeaderTop}px`,
+                  ...headerStyle }}
       >
-        <span>Sun</span>
-        <span>Mon</span>
-        <span>Tue</span>
-        <span>Wed</span>
-        <span>Thu</span>
-        <span>Fri</span>
-        <span>Sat</span>
+          <span>Sun</span>
+          <span>Mon</span>
+          <span>Tue</span>
+          <span>Wed</span>
+          <span>Thu</span>
+          <span>Fri</span>
+          <span>Sat</span>
       </div>
       <div className="grid"
           style={gridStyle}
@@ -121,6 +144,7 @@ function Calendar (props) {
             return(
                   <div key={index} 
                         className={`cell`}
+                        // style={cellStyle}
                   >
                     <DayCard className={`fill-cell`}
                         key={index}
@@ -136,6 +160,7 @@ function Calendar (props) {
               <div >
                   <div key={index} 
                       className={`cell empty`}
+                      // style={cellStyle}
                   >
                     {/* <span>empty</span> */}
                   </div>

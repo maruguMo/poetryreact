@@ -1,9 +1,19 @@
-import React,{useRef, useEffect} from "react";
+import React,{useRef, useEffect, useState} from "react";
 import { isCloseToWhite } from "./utils/ImgProcessor";
 import './HourCard.css';
 function HourCard ( props) {
     const hourRef = useRef(null);
+    const [minutes, setMinutes] = useState(new Date().getMinutes());
 
+    useEffect(() => {
+      const interval = setInterval(() => {
+        const min=new Date().getMinutes()
+        setMinutes(min<10?`0${min}`:`${min}`);
+      }, 60000); // Update every 60 seconds
+    
+      return () => clearInterval(interval);
+    }, []);
+    
     useEffect(() => {
       if (props.isNow && hourRef.current) {
         hourRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -14,7 +24,12 @@ function HourCard ( props) {
         color:isCloseToWhite(props.complementaryColor)? 'rgb(0,0,0)':'white', 
         backgroundColor:props.complementaryColor,
     }:{};
-
+    const hr = props.isToday ?
+                                props.isNow ?
+                                   `${props.hour.toString().padStart(2, "0")}:${minutes}`
+                                  :`${props.hour}:00`
+                            : `${props.hour}:00`;
+  
   return (
     <div
         ref={hourRef} 
@@ -27,7 +42,7 @@ function HourCard ( props) {
 
         style={bgStyle}
       >
-          {props.hour<10?`0${props.hour}:00`: `${props.hour}:00` }
+          {hr}
       </span>
     </div>
   );

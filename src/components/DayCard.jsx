@@ -9,15 +9,21 @@ const hoursOfDay = Array.from({ length: 24 }, (_, i) => i);
 const images=[
   "/bgimages/bg1.png",
   "/bgimages/bg2.png",
+  "/bgimages/bg3.png",
+  "/bgimages/bg4.png",
   "/bgimages/bg5.png",
   "/bgimages/bg6.png",
   "/bgimages/bg7.png",
+  "/bgimages/bg8.png",
   "/bgimages/bg9.png",
   "/bgimages/bg10.png",
+  "/bgimages/bg11.png",
   "/bgimages/bg12.png",
   "/bgimages/bg13.png",
   "/bgimages/bg14.png",
   "/bgimages/bg15.png",
+  "/bgimages/bg16.png",
+  "/bgimages/bg17.png",
 ]
 function getBgImage(){
   const randomIndex = Math.floor(Math.random() * images.length);
@@ -29,13 +35,19 @@ function DayCard  (props) {
   const [hourNow, setHourNow] = useState(new Date().getHours())
   const [bgImage, setBgImage] = useState(images[Math.floor(Math.random() * images.length)]);
   const [complementaryColor, setComplementaryColor] = useState('black');
-  const [majorColor, setMajorColor]=useState('transparent');
+  const [majorColor, setMajorColor]=useState();
   
-  const bgStyle=props.isToday? {backgroundImage: `url(${bgImage})`,
-                                backgroundSize: 'cover',
+  const bgStyle=props.isToday? {
+                                backgroundImage: `url(${bgImage})`,
+                                backgroundSize: 'contain',
                                 backgroundRepeat: 'no-repeat',
-                                backgroundPosition: 'center',}:{};
-
+                                backgroundPosition: 'center',
+                                backgroundColor:majorColor, 
+                              }:{};
+  extractMajorColor(bgImage, ({ majorColor, complementaryColor }) => {
+    setMajorColor(majorColor);
+    setComplementaryColor(complementaryColor);
+  });
   useEffect(() => {
     const interval = setInterval(() => {
       setBgImage((prevBgImage) => {
@@ -95,7 +107,7 @@ function DayCard  (props) {
                   {isExpanded && (
                       <button className="close-btn" 
                               onClick={closeCard}>
-                              X
+                              <strong>X</strong> 
                       </button>
                   )}                  
             </p>          
