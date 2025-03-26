@@ -1,0 +1,37 @@
+/* Existing styles... */
+ 
+.hour-card {
+    display: flex;
+    width:100%;
+    justify-content: flex-start;
+    align-items: center;
+    height: 4.1dvh;
+    cursor: pointer;
+    user-select: none;
+    margin: 0;
+    border: 0.32px inset rgb(228, 227, 227);
+}
+.hour-now{
+    /* transform: scale(1.05);  */
+    box-shadow: 0px 0px 15px rgba(252, 252, 193, 0.967); 
+    border: 3px solid rgba(236, 0, 0, 1);
+}  
+.hour-card:hover {
+    outline:2px solid rgb(236, 8, 38)
+}
+
+.hour-card:focus {
+    outline: 2px solid #007bff;
+}
+
+.p-header{
+    opacity: 0.8;
+    border-radius: 7%;
+    margin: 0;
+    font-size:large;
+    font-weight: 500;
+    width:15%;
+    height:100%;
+    color: white;
+    background-color: rgb(8, 36, 36);
+}
