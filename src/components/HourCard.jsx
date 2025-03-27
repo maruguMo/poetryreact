@@ -26,7 +26,7 @@ function HourCard ( props) {
     }:{};
     const hr = props.isToday ?
                                 props.isNow ?
-                                   `${props.hour.toString().padStart(2, "0")}:${minutes}`
+                                   `${props.hour.toString().padStart(2, "0")}:${minutes.toString().padStart(2,"0")}`
                                   :`${props.hour}:00`
                             : `${props.hour}:00`;
   

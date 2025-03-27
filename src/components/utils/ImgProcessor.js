@@ -1,6 +1,14 @@
+const colorCache = new Map();
+
 export function extractMajorColor(imageUrl, callback) {
+    // Check if result is already cached
+    if (colorCache.has(imageUrl)) {
+        callback(colorCache.get(imageUrl));
+        return;
+    }
+
     const img = new Image();
-    img.crossOrigin = "Anonymous"; // Prevent CORS issues (useful if loading from an external source)
+    img.crossOrigin = "Anonymous"; // Prevent CORS issues
     img.src = imageUrl;
 
     img.onload = function () {
@@ -26,9 +34,14 @@ export function extractMajorColor(imageUrl, callback) {
         b = Math.round(b / count);
 
         const majorColor = `rgb(${r}, ${g}, ${b})`;
-        const complementaryColor = `rgb(${255 - r}, ${255 - g}, ${255 - b}, ${1})`;
+        const complementaryColor = `rgb(${255 - r}, ${255 - g}, ${255 - b})`;
 
-        callback({ majorColor, complementaryColor });
+        const colorData = { majorColor, complementaryColor };
+
+        // Store in cache
+        colorCache.set(imageUrl, colorData);
+
+        callback(colorData);
     };
 
     img.onerror = function () {
