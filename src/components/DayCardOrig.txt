@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import { useDrag } from 'react-dnd';
 import { nanoid } from 'nanoid';
 import HourCard from './HourCard.jsx';
 import './DayCard.css';
@@ -25,9 +26,6 @@ const images=[
   "/bgimages/bg15.png",
   "/bgimages/bg16.png",
   "/bgimages/bg17.png",
-  "/bgimages/bg18.png",
-  "/bgimages/bg19.png",
-  "/bgimages/bg20.png",
 ]
 function getBgImage(){
   const randomIndex = Math.floor(Math.random() * images.length);
@@ -40,22 +38,35 @@ function DayCard  (props) {
   const [bgImage, setBgImage] = useState(images[Math.floor(Math.random() * images.length)]);
   const [complementaryColor, setComplementaryColor] = useState('black');
   const [majorColor, setMajorColor]=useState();
+  
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: 'DAY_CARD',
+    item :{
+            day: props.day,
+            month:props.month,
+            year:props.year,
+          },
+    canDrag: isExpanded,
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  }));
+
 
   const bgStyle=props.isToday? {
                                 backgroundImage: `url(${bgImage})`,
-                                backgroundSize: '100% 100%',
+                                backgroundSize: 'contain',
                                 backgroundRepeat: 'no-repeat',
                                 backgroundPosition: 'center',
                                 backgroundColor:majorColor,
-                                cursor:'pointer', // Visual feedback
-                                backgroundAttachment: 'scroll',
+                                cursor: isExpanded ? 'grab' : 'pointer', // Visual feedback
                                 // opacity: isDragging ? 0.5 : 1,                                 
                               }:{};
   
   //change background on load
   useEffect(() => {
 
-     extractMajorColor(bgImage, ({ majorColor, complementaryColor }) => {
+      extractMajorColor(bgImage, ({ majorColor, complementaryColor }) => {
           setMajorColor(majorColor);
           setComplementaryColor(complementaryColor);
       });
@@ -100,38 +111,29 @@ function DayCard  (props) {
     e.stopPropagation(); // Prevent parent div from receiving the event
     setIsExpanded(false);
   }
-  
-  function handleKeyDown(e){
-    // console.log(e.keyCode)
-    if (e.keyCode===27){
-      setIsExpanded(false);
-    }
-    e.stopPropagation();
-  }
+
 
   return (
-        <div  
+        <div ref={isExpanded ? drag : null} // Only attach drag ref when expanded
               key={nanoid()}
               className ={`the-day ${isExpanded?"expanded":"collapsed"} 
-                            ${props.isToday? "today":""}`}
+                            ${props.isToday? "today":""} 
+                            ${!isExpanded && props.isToday? "today-hover":""} 
+                            ${isDragging ? 'dragging' : ''}`}
 
               style = {bgStyle}
-
-              onKeyDown={handleKeyDown}
+              
               onClick={toggleExpand}
           >
             <p className={`day-header 
-                    ${isExpanded? "day-header-sticky":""}
-                    ${props.isToday? "today-font":""}`}
-
-                    onKeyDown={handleKeyDown}
-            >
+                          ${isExpanded? "day-header-sticky":""}
+                          ${props.isToday? "today-font":""}`}>
                   {isExpanded ? (props.day+' '+ props.month): props.day} 
                   {isExpanded && (
-                  <button className="close-btn" 
-                          onClick={closeCard}>
-                          <strong>X</strong> 
-                  </button>
+                      <button className="close-btn" 
+                              onClick={closeCard}>
+                              <strong>X</strong> 
+                      </button>
                   )}                  
             </p>          
             <div className={"hours-of-day"} >
@@ -151,4 +153,4 @@ function DayCard  (props) {
         </div>
   )
 }
-export default React.memo(DayCard);
+export default DayCard;

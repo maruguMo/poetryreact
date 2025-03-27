@@ -1,4 +1,5 @@
 import React from "react";
+import { nanoid } from 'nanoid'
 import DayCard from "./DayCard";
 import "./Calendar.css"; // Import CSS for styling
 
@@ -13,6 +14,7 @@ function Calendar (props) {
   const [subHeaderTop, setSubheaderTop]=React.useState();
   const [numRows, setNumRows]=React.useState();
 
+
   const getCurrentMonthDates = (year, month) => {
     const startDate = new Date(year, month, 1);
     const endDate = new Date(year, month + 1, 0);
@@ -25,21 +27,21 @@ function Calendar (props) {
 
     // Fill in the empty slots before the first day of the month
     for (let i = 0; i < firstDayOfWeek; i++) {
-        datesInMonth.push(null);
+        datesInMonth.push({date:null, id:nanoid()});
     }
 
     // Add the actual days of the month
     while (currentDate <= lastDateOfMonth) {
-        datesInMonth.push(currentDate++);
+        datesInMonth.push({date:currentDate++,id:nanoid()});
     }
 
-    // ✅ FIX: Ensure a complete last row
+    // Ensure a complete last row
     const extraSlots = datesInMonth.length % 7;
     let calRows=parseInt(datesInMonth.length/7);
     if (extraSlots !== 0) {
         calRows+=1;
         for (let i = extraSlots; i < 7; i++) {
-            datesInMonth.push(null);
+            datesInMonth.push({date:null, id:nanoid()});
         }
     }
     // console.log(calRows)
@@ -105,16 +107,17 @@ function Calendar (props) {
       {/* Header */}
       <div ref={headerRef} 
         className="header"
-        style={headerStyle}
+        style={{...headerStyle,paddingRight:'2px'}}
       >
         <button 
             onClick={handlePrev}>
-              {'<'}
+            <strong>{'<'}</strong> 
         </button>
         <span>{monthName}</span>
         <button 
+              style={{marginRight:'10px', padding: '3px 10px'}}
               onClick={handleNext}>
-              {'>'}
+              <strong>{'>'}</strong> 
         </button>
       </div>
 
@@ -122,6 +125,7 @@ function Calendar (props) {
       <div className="days-of-week"
            style={{ top: `${subHeaderTop}px`,
                   ...headerStyle }}
+          key={nanoid()}
       >
           <span>Sun</span>
           <span>Mon</span>
@@ -137,29 +141,28 @@ function Calendar (props) {
 
         {dates.map((date, index) => {
           let isToday;
-          if(date){
-            isToday = date === today.getDate() && 
+          if(date.date){
+            isToday = date.date === today.getDate() && 
                       month === today.getMonth() && 
                       year === today.getFullYear();
             return(
-                  <div key={index} 
+                  <div key={nanoid()} 
                         className={`cell`}
-                        // style={cellStyle}
                   >
-                    <DayCard className={`fill-cell`}
-                        key={index}
-                        day={date}
-                        month={monthName}
-                        year={year}
-                        isToday={isToday}  
-                    />
+                      <div  className={`fill-cell`}>
+                            <DayCard
+                                day={date.date}
+                                month={monthName}
+                                year={year}
+                                isToday={isToday}  
+                            />
+                      </div>
                   </div>
             )
           }else{
             return (
-              <div >
-                  <div key={index} 
-                      className={`cell empty`}
+              <div key={date.id}>
+                  <div className={`cell empty`}
                       // style={cellStyle}
                   >
                     {/* <span>empty</span> */}
@@ -173,4 +176,4 @@ function Calendar (props) {
   );
 };
 
-export default Calendar;
+export default React.memo(Calendar);

@@ -1,6 +1,7 @@
 const colorCache = new Map();
 
-export function extractMajorColor(imageUrl, callback) {
+export async function extractMajorColor(imageUrl, callback) {
+    // console.log(colorCache)
     // Check if result is already cached
     if (colorCache.has(imageUrl)) {
         callback(colorCache.get(imageUrl));
@@ -11,7 +12,7 @@ export function extractMajorColor(imageUrl, callback) {
     img.crossOrigin = "Anonymous"; // Prevent CORS issues
     img.src = imageUrl;
 
-    img.onload = function () {
+    img.onload =  await function () {
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
 

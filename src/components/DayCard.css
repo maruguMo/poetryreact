@@ -2,11 +2,12 @@
   --bg-path:'';
 } */
 .expanded{
-    position: absolute; /* Detaches from grid */
+  /* Detaches from grid */
+    position: absolute; 
     top: 50%;
     left: 2%;
-    height: 95%;
-    width: 60%;
+    height: 90%;
+    width: 70%;
     background-color: beige;
     border-radius: 2%;
     border:1px solid black;
@@ -17,7 +18,8 @@
     opacity: 100;
 }
 .collapsed{
-    position: relative; /* Stays in the grid */
+    /* Stays in the grid */
+    position: relative; 
     width: 100%;
     height: 90%;
   }
@@ -32,24 +34,24 @@
     margin: 0;
   }
 .today{
-    /* background-image: url(./bgimages/bg1.png); */
-    /* background: url(./bgimages/bg1.png); */
+
     border: 1px solid sandybrown;
-    box-shadow: 0px 0px 10px rgba(255, 165, 0, 0.5);
-    animation: fadeInHighlight 0.5s ease-out;
+    box-shadow: 0px 0px 5px 10px  rgba(151, 67, 230, 0.351); 
+
+
   }
-.today-hover {
+  .today-hover {
     transform: scale(1.05); 
-    box-shadow: 0px 15px 5px 5px  rgba(255, 165, 0, 0.562); 
+  }
+  .today:hover{
+    animation: fadeInHighlight 1s ease-in-out 3 forwards;
   }
   @keyframes fadeInHighlight {
     from {
-      opacity: 0;
-      transform: scale(0.9);
+      box-shadow: 0px 0px 5px 4px  rgba(151, 67, 230, 0.351);
     }
     to {
-      opacity: 1;
-      transform: scale(1);
+      box-shadow: 0px 0px 5px 6px  rgba(151, 67, 230, 0.721);
     }
   }
 
@@ -63,7 +65,7 @@
 .the-day{
     display: flex;
     flex-direction: column;
-
+    /* transition: all 0.3s ease-in-out; */
   }
 .day-header{
     font-family: inherit;

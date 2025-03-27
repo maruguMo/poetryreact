@@ -70,7 +70,7 @@
     /* justify-content: flex-start; */
     /* align-items: flex-start; */
     border: 1px solid #ddd;
-     cursor: pointer;
+    cursor: pointer;
   }
   .fill-cell{
     width: 100%;

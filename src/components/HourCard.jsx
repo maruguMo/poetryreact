@@ -48,4 +48,4 @@ function HourCard ( props) {
   );
 };
 
-export default HourCard;
+export default React.memo(HourCard);

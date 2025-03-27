@@ -17,7 +17,7 @@
     border: 3px solid rgba(236, 0, 0, 1);
 }  
 .hour-card:hover {
-    outline:2px solid rgb(236, 8, 38)
+    outline:2px solid rgb(9, 62, 236);
 }
 
 .hour-card:focus {

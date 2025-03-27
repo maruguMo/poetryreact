@@ -1,0 +1,125 @@
+import React, { useState, useEffect } from 'react';
+import { useDrag } from 'react-dnd';
+import { nanoid } from 'nanoid';
+import HourCard from './HourCard.jsx';
+import './DayCard.css';
+import { extractMajorColor } from './utils/ImgProcessor.js';
+
+function DayCard(props) {
+  // Keep all your existing state and effects exactly as is
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [hourNow, setHourNow] = useState(new Date().getHours());
+  const [bgImage, setBgImage] = useState(images[Math.floor(Math.random() * images.length)]);
+  const [complementaryColor, setComplementaryColor] = useState('black');
+  const [majorColor, setMajorColor] = useState();
+
+  // Only change needed: Add this wrapper div ref
+  const [dragRef, setDragRef] = useState(null);
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: 'DAY_CARD',
+    item: {
+      day: props.day,
+      month: props.month,
+      year: props.year,
+    },
+    canDrag: isExpanded,
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
+
+  // Keep all your existing useEffect hooks exactly as is
+  useEffect(() => {
+    extractMajorColor(bgImage, ({ majorColor, complementaryColor }) => {
+      setMajorColor(majorColor);
+      setComplementaryColor(complementaryColor);
+    });
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBgImage((prevBgImage) => {
+        const newBgImage = getBgImage();
+        extractMajorColor(newBgImage, ({ majorColor, complementaryColor }) => {
+          setMajorColor(majorColor);
+          setComplementaryColor(complementaryColor);
+        });
+        return newBgImage !== prevBgImage ? newBgImage : prevBgImage;
+      });
+    }, 1800000);
+    return () => clearInterval(interval);
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newHour = new Date().getHours();
+      if (newHour !== hourNow) {
+        setHourNow(newHour);
+      }
+    }, 36000);
+    return () => clearInterval(interval);
+  }, [hourNow]);
+
+  // Keep your toggle functions exactly as is
+  function toggleExpand() {
+    if (!isExpanded) {
+      setIsExpanded(true);
+    }
+    setHourNow(new Date().getHours());
+  }
+
+  function closeCard(e) {
+    e.stopPropagation();
+    setIsExpanded(false);
+  }
+
+  return (
+    <div 
+      className={`the-day ${isExpanded ? "expanded" : "collapsed"} 
+                 ${props.isToday ? "today" : ""} 
+                 ${!isExpanded && props.isToday ? "today-hover" : ""} 
+                 ${isDragging ? 'dragging' : ''}`}
+      style={props.isToday ? {
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: 'contain',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundColor: majorColor,
+        cursor: isExpanded ? 'grab' : 'pointer',
+      } : {}}
+      onClick={toggleExpand}
+    >
+      {/* Add this wrapper div for the drag ref */}
+      <div ref={isExpanded ? drag : null} style={{ height: '100%' }}>
+        <p className={`day-header 
+                      ${isExpanded ? "day-header-sticky" : ""}
+                      ${props.isToday ? "today-font" : ""}`}>
+          {isExpanded ? (props.day + ' ' + props.month) : props.day}
+          {isExpanded && (
+            <button className="close-btn" onClick={closeCard}>
+              <strong>X</strong>
+            </button>
+          )}
+        </p>
+        <div className="hours-of-day">
+          {isExpanded && hoursOfDay.map((hour) => {
+            const isNow = hourNow === hour;
+            return (
+              <HourCard
+                key={hour}
+                hour={hour}
+                isNow={isNow}
+                majorColor={majorColor}
+                complementaryColor={complementaryColor}
+                isToday={props.isToday}
+                className="hour-card-expanded"
+              />
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default DayCard;
