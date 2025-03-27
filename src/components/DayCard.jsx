@@ -44,11 +44,13 @@ function DayCard  (props) {
                                 backgroundPosition: 'center',
                                 backgroundColor:majorColor, 
                               }:{};
-  extractMajorColor(bgImage, ({ majorColor, complementaryColor }) => {
-    setMajorColor(majorColor);
-    setComplementaryColor(complementaryColor);
-  });
+
   useEffect(() => {
+    extractMajorColor(bgImage, ({ majorColor, complementaryColor }) => {
+      setMajorColor(majorColor);
+      setComplementaryColor(complementaryColor);
+    });
+  
     const interval = setInterval(() => {
       setBgImage((prevBgImage) => {
         const newBgImage = getBgImage();
@@ -65,7 +67,7 @@ function DayCard  (props) {
     }, 1800000 ); // Change every 24h 86400000
   
     return () => clearInterval(interval); // Cleanup on unmount
-  }, []); // Empty dependency array ensures it runs only once
+  }, [bgImage]); // Empty dependency array ensures it runs only once
   
 
   useEffect(()=>{
