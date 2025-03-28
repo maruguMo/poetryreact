@@ -1,5 +1,5 @@
 import React,{useRef, useEffect, useState} from "react";
-import { isCloseToWhite } from "./utils/ImgProcessor";
+import isCloseToWhite from "./utils/isCloseToWhite";
 import './HourCard.css';
 function HourCard ( props) {
     const hourRef = useRef(null);

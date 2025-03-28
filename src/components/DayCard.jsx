@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react'
-import { nanoid } from 'nanoid';
-import HourCard from './HourCard.jsx';
-import './DayCard.css';
-import { extractMajorColor} from './utils/ImgProcessor.js';
+import React, { useEffect, useState } from "react";
+import { nanoid } from "nanoid";
+import HourCard from "./HourCard.jsx";
+import "./DayCard.css";
+import { colorExtractor } from './utils/ImageProcessor.js'; // Refactored extractor
 
 // Define the hours of the day
 const hoursOfDay = Array.from({ length: 24 }, (_, i) => i);
 
-const images=[
+const images = [
   "/bgimages/bg1.png",
   "/bgimages/bg2.png",
   "/bgimages/bg3.png",
@@ -28,127 +28,138 @@ const images=[
   "/bgimages/bg18.png",
   "/bgimages/bg19.png",
   "/bgimages/bg20.png",
-]
-function getBgImage(){
+];
+
+function getBgImage() {
   const randomIndex = Math.floor(Math.random() * images.length);
   return images[randomIndex];
 }
 
-function DayCard  (props) {
+function DayCard(props) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [hourNow, setHourNow] = useState(new Date().getHours())
-  const [bgImage, setBgImage] = useState(images[Math.floor(Math.random() * images.length)]);
-  const [complementaryColor, setComplementaryColor] = useState('black');
-  const [majorColor, setMajorColor]=useState();
+  const [hourNow, setHourNow] = useState(new Date().getHours());
+  const [bgImage, setBgImage] = useState(getBgImage());
+  const [complementaryColor, setComplementaryColor] = useState("black");
+  const [majorColor, setMajorColor] = useState();
 
-  const bgStyle=props.isToday? {
-                                backgroundImage: `url(${bgImage})`,
-                                backgroundSize: '100% 100%',
-                                backgroundRepeat: 'no-repeat',
-                                backgroundPosition: 'center',
-                                backgroundColor:majorColor,
-                                cursor:'pointer', // Visual feedback
-                                backgroundAttachment: 'scroll',
-                                // opacity: isDragging ? 0.5 : 1,                                 
-                              }:{};
-  
-  //change background on load
+  // Refactored image processing with graceful failure
+  const processImageColors = async (image) => {
+    try {
+      const { majorColor, complementaryColor } = await colorExtractor.extract(image);
+      setMajorColor(majorColor);
+      setComplementaryColor(complementaryColor);
+    } catch (error) {
+      console.error("Image processing failed:", error);
+      setMajorColor("grey");
+      setComplementaryColor("black");
+    }
+  };
+
+  // Change background on load
   useEffect(() => {
+    processImageColors(bgImage);
+  }, [bgImage]);
 
-     extractMajorColor(bgImage, ({ majorColor, complementaryColor }) => {
-          setMajorColor(majorColor);
-          setComplementaryColor(complementaryColor);
-      });
-  });
-
-  useEffect(()=>{
+  // Automatically change background every 30 minutes
+  useEffect(() => {
     const interval = setInterval(() => {
       setBgImage((prevBgImage) => {
         const newBgImage = getBgImage();
-
-        console.log(newBgImage,prevBgImage);
-
-        extractMajorColor(newBgImage, ({ majorColor, complementaryColor }) => {
-          setMajorColor(majorColor);
-          setComplementaryColor(complementaryColor);
-        });
-
-        return newBgImage !== prevBgImage ? newBgImage : prevBgImage;
+        if (newBgImage !== prevBgImage) {
+          processImageColors(newBgImage);
+          return newBgImage;
+        }
+        return prevBgImage;
       });
-    }, 1800000); // Change every 24h 86400000
-  
-    return () => clearInterval(interval); // Cleanup on unmount
-  }); 
-  
+    }, 1800000);
 
-  useEffect(()=>{
-  const interval = setInterval(() => {
-      const newHour=new Date().getHours();
-      if(newHour !==hourNow){
-        setHourNow(new Date().getHours());
+    return () => clearInterval(interval);
+  }, []);
+
+  // Track hour changes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newHour = new Date().getHours();
+      if (newHour !== hourNow) {
+        setHourNow(newHour);
       }
-    }, 36000); 
-   clearInterval(interval); // Cleanup on unmount
-  },[hourNow])
+    }, 36000);
+
+    return () => clearInterval(interval);
+  }, [hourNow]);
+
   function toggleExpand() {
-    if(!isExpanded){
-      setIsExpanded(true); 
+    if (!isExpanded) {
+      setIsExpanded(true);
     }
     setHourNow(new Date().getHours());
   }
+
   function closeCard(e) {
-    e.stopPropagation(); // Prevent parent div from receiving the event
+    e.stopPropagation();
     setIsExpanded(false);
   }
-  
-  function handleKeyDown(e){
-    // console.log(e.keyCode)
-    if (e.keyCode===27){
+
+  function handleKeyDown(e) {
+    if (e.keyCode === 27) {
       setIsExpanded(false);
     }
     e.stopPropagation();
   }
 
+  const bgStyle = props.isToday
+    ? {
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: "100% 100%",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundColor: majorColor,
+        cursor: "pointer",
+        backgroundAttachment: "scroll",
+      }
+    : {};
+
   return (
-        <div  
-              key={nanoid()}
-              className ={`the-day ${isExpanded?"expanded":"collapsed"} 
-                            ${props.isToday? "today":""}`}
-
-              style = {bgStyle}
-
-              onKeyDown={handleKeyDown}
-              onClick={toggleExpand}
-          >
-            <p className={`day-header 
-                    ${isExpanded? "day-header-sticky":""}
-                    ${props.isToday? "today-font":""}`}
-
-                    onKeyDown={handleKeyDown}
-            >
-                  {isExpanded ? (props.day+' '+ props.month): props.day} 
-                  {isExpanded && (
-                  <button className="close-btn" 
-                          onClick={closeCard}>
-                          <strong>X</strong> 
-                  </button>
-                  )}                  
-            </p>          
-            <div className={"hours-of-day"} >
-              {isExpanded && (hoursOfDay.map((hour) => {
-                const isNow=hourNow===hour;
-                return(
-                <HourCard key={hour} 
-                          hour={hour}
-                          isNow={isNow} 
-                          majorColor={majorColor}
-                          complementaryColor={complementaryColor}
-                          isToday={props.isToday}
-                          className="hour-card-expanded"
-                />
-              )}))}
-            </div>
-        </div>
-  )
+    <div
+      key={nanoid()}
+      className={`the-day ${isExpanded ? "expanded" : "collapsed"} 
+                  ${props.isToday ? "today" : ""}`}
+      style={bgStyle}
+      onKeyDown={handleKeyDown}
+      onClick={toggleExpand}
+    >
+      <p
+        className={`day-header 
+                    ${isExpanded ? "day-header-sticky" : ""}
+                    ${props.isToday ? "today-font" : ""}`}
+        onKeyDown={handleKeyDown}
+      >
+        {isExpanded ? props.day + " " + props.month : props.day}
+        {isExpanded && (
+          <button className="close-btn" onClick={closeCard}>
+            <strong>X</strong>
+          </button>
+        )}
+      </p>
+      <div className={"hours-of-day"}>
+        {isExpanded &&
+          hoursOfDay.map((hour) => {
+            const isNow = hourNow === hour;
+            return (
+              <HourCard
+                key={hour}
+                hour={hour}
+                isNow={isNow}
+                majorColor={majorColor}
+                complementaryColor={complementaryColor}
+                isToday={props.isToday}
+                className="hour-card-expanded"
+              />
+            );
+          })}
+      </div>
+    </div>
+  );
 }
+
 export default React.memo(DayCard);
