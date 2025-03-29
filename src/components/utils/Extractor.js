@@ -6,20 +6,21 @@ export class ColorExtractor {
         this.cache = cache;
     }
 
-    async extract(imageUrl, callback) {
+    async extract(imageUrl) {
         if (this.cache.has(imageUrl)) {
-            callback(this.cache.get(imageUrl));
-            return;
+            return this.cache.get(imageUrl);
         }
-
+    
         try {
             const img = await this.imageLoader.load(imageUrl);
             const colorData = this.colorProcessor.process(img);
-
+    
             this.cache.set(imageUrl, colorData);
-            callback(colorData);
+            return colorData; // Return the color data
         } catch (error) {
             console.error("Error extracting color:", error);
+            throw error;
         }
     }
+    
 }

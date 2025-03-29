@@ -10,51 +10,76 @@
     border-radius: 8px;
     overflow: hidden;
   }
-  
-  .header {
-    font-family: "Exo 2", sans-serif;
-    font-optical-sizing:auto;
-    font-weight:300;
-    font-style: normal;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f4f4f4;
-    padding: 8px;
-    text-align: center;
-    position:sticky;
-    top: 0;
-    z-index: 10;
-  }
-  .btn-style{
-    /* padding-left: 1%; */
-    padding-right: 2%;
-    border-radius: 3%;
-    border: 1px inset purple;
-    text-align: center;
-    /* width: auto; */
-  }
-  .header button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .days-of-week {
-    font-family: "Exo 2", sans-serif;
-    font-optical-sizing:auto;
-    position: sticky;
-    font-size:large;
-    font-weight:400;
-    font-style:normal;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    text-align: center;
-    background-color: #e0e0e0;
-    padding: 4px 0;
-    z-index: 10;
-  }
-  
+
+  /*===========================================================================================
+   Header styling for the calendar header is this region 
+   ============================================================================================*/
+      .datebox{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 90%;
+      }
+      .center-items {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        font-size: large;
+      }
+
+      .end-items {
+        display: flex;
+        justify-content: flex-end;
+        font-size:large;
+      }  
+      .header {
+        display: flex;
+        flex-direction: row;
+        font-family: "Exo 2", sans-serif;
+        font-style: normal;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f4f4f4;
+        padding: 8px;
+        text-align: center;
+        position:sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .btn-style{
+        /* padding-left: 1%; */
+        padding-right: 2%;
+        border-radius: 3%;
+        border: 1px inset purple;
+        text-align: center;
+        /* width: auto; */
+      }
+      .header button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+      }
+      
+      .days-of-week {
+        font-family: "Exo 2", sans-serif;
+        font-optical-sizing:auto;
+        position: sticky;
+        font-size:large;
+        font-weight:400;
+        font-style:normal;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        text-align: center;
+        background-color: #e0e0e0;
+        padding: 4px 0;
+        z-index: 10;
+      }
+/* ===========================================================================================================
+    End of header region styling 
+==============================================================================================================*/
+
   .grid {
     display: grid;
     /* grid-template-columns: repeat(7, 1fr); */

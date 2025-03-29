@@ -1,35 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import HourCard from "./HourCard.jsx";
-import "./DayCard.css";
-import { colorExtractor } from './utils/ImageProcessor.js'; // Refactored extractor
 
+import { colorExtractor } from './utils/ImageProcessor.js'; // Refactored 
+
+import "./DayCard.css";
 // Define the hours of the day
 const hoursOfDay = Array.from({ length: 24 }, (_, i) => i);
-
-const images = [
-  "/bgimages/bg1.png",
-  "/bgimages/bg2.png",
-  "/bgimages/bg3.png",
-  "/bgimages/bg4.png",
-  "/bgimages/bg5.png",
-  "/bgimages/bg6.png",
-  "/bgimages/bg7.png",
-  "/bgimages/bg8.png",
-  "/bgimages/bg9.png",
-  "/bgimages/bg10.png",
-  "/bgimages/bg11.png",
-  "/bgimages/bg12.png",
-  "/bgimages/bg13.png",
-  "/bgimages/bg14.png",
-  "/bgimages/bg15.png",
-  "/bgimages/bg16.png",
-  "/bgimages/bg17.png",
-  "/bgimages/bg18.png",
-  "/bgimages/bg19.png",
-  "/bgimages/bg20.png",
-];
-
+//#region images paths 
+      const images = [
+        "/bgimages/bg1.png",
+        "/bgimages/bg2.png",
+        "/bgimages/bg3.png",
+        "/bgimages/bg4.png",
+        "/bgimages/bg5.png",
+        "/bgimages/bg6.png",
+        "/bgimages/bg7.png",
+        "/bgimages/bg8.png",
+        "/bgimages/bg9.png",
+        "/bgimages/bg10.png",
+        "/bgimages/bg11.png",
+        "/bgimages/bg12.png",
+        "/bgimages/bg13.png",
+        "/bgimages/bg14.png",
+        "/bgimages/bg15.png",
+        "/bgimages/bg16.png",
+        "/bgimages/bg17.png",
+        "/bgimages/bg18.png",
+        "/bgimages/bg19.png",
+        "/bgimages/bg20.png",
+        "/bgimages/bg21.png",
+        "/bgimages/bg22.png",
+      ];
+//#endregion
 function getBgImage() {
   const randomIndex = Math.floor(Math.random() * images.length);
   return images[randomIndex];
@@ -39,19 +42,21 @@ function DayCard(props) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [hourNow, setHourNow] = useState(new Date().getHours());
   const [bgImage, setBgImage] = useState(getBgImage());
-  const [complementaryColor, setComplementaryColor] = useState("black");
+  const [complementaryColor, setComplementaryColor] = useState('rgb(0,0,0)');
   const [majorColor, setMajorColor] = useState();
 
   // Refactored image processing with graceful failure
   const processImageColors = async (image) => {
     try {
-      const { majorColor, complementaryColor } = await colorExtractor.extract(image);
-      setMajorColor(majorColor);
-      setComplementaryColor(complementaryColor);
+      const { majorColor, complementaryColor } =  await colorExtractor.extract(image)
+        // console.log("Color extracted:", colorData);
+        setMajorColor(majorColor);
+        setComplementaryColor(complementaryColor);
+
     } catch (error) {
       console.error("Image processing failed:", error);
-      setMajorColor("grey");
-      setComplementaryColor("black");
+      setMajorColor("rgb(124, 124, 124)");
+      setComplementaryColor("rgb(0,0,0)'");
     }
   };
 
@@ -132,8 +137,13 @@ function DayCard(props) {
         className={`day-header 
                     ${isExpanded ? "day-header-sticky" : ""}
                     ${props.isToday ? "today-font" : ""}`}
+        role="button"
+        tabIndex={0}
+        onClick={toggleExpand}
         onKeyDown={handleKeyDown}
+        
       >
+        {(!isExpanded && props.isLastDayOfWeek) ?"⭐":""}
         {isExpanded ? props.day + " " + props.month : props.day}
         {isExpanded && (
           <button className="close-btn" onClick={closeCard}>
@@ -151,7 +161,7 @@ function DayCard(props) {
                 hour={hour}
                 isNow={isNow}
                 majorColor={majorColor}
-                complementaryColor={complementaryColor}
+                compColor={complementaryColor}
                 isToday={props.isToday}
                 className="hour-card-expanded"
               />

@@ -2,6 +2,7 @@ import React from "react";
 import { nanoid } from 'nanoid'
 import DayCard from "./DayCard";
 import "./Calendar.css"; // Import CSS for styling
+import CalendarHeader from "./CalendarHeader";
 
 function Calendar (props) {
 
@@ -44,10 +45,31 @@ function Calendar (props) {
             datesInMonth.push({date:null, id:nanoid()});
         }
     }
-    // console.log(calRows)
+
     setNumRows(calRows)
     return datesInMonth;
   };
+  function getLastDayOfWeek(y,m,d){
+
+    if (typeof y !== 'number' || typeof m !== 'number' || typeof d !== 'number') {
+      throw new Error("Year, month, and day must be numbers");
+    }
+
+    if (y < 2020) {
+        throw new Error("Year cannot be less than 2020");
+    }
+
+    if (m < 0 || m > 11) {
+      throw new Error("Month must be between 0 (January) and 11 (December)");
+    }
+
+    if (d < 1 || d > 31) {
+      throw new Error("Day must be between 1 and 31");
+    }
+    const date= new Date(y,m,d);
+    return date.getDate() - (date.getDay() - 1) + 5;
+
+  }
 
   React.useEffect(()=>{
     if (headerRef.current){
@@ -64,16 +86,27 @@ function Calendar (props) {
 
   function handlePrev() {
     setMonth((prev) => {
-      if (prev === 0) {
-        setYear(  year - 1); // Go to last year if January
-        return 11; // Switch to December
-      }
-      return prev - 1;
+        if (year === 2020 && prev === 0) {
+            return 0; // Prevent traveling back before Jan 2020
+        }
+        if (prev === 0) {
+            setYear(year - 1); // Move to last year if January
+            return 11; // Switch to December
+        }
+        return prev - 1;
     });
-  }
+}
   
   function handleNext() {
     setMonth((prev) => {
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear();
+      const currentMonth = currentDate.getMonth();
+
+      // Prevent going beyond the current month in the current year
+      if (year === currentYear && prev === currentMonth) {
+          return prev; // Stay on the current month
+      }
       if (prev === 11) {
         setYear( year + 1); // Go to next year if December
         return 0; // Switch to January
@@ -113,7 +146,24 @@ function Calendar (props) {
             onClick={handlePrev}>
             <strong>{'<'}</strong> 
         </button>
-        <span>{monthName}</span>
+        <div className="datebox">
+            <div className="center-items">
+                <CalendarHeader
+                  currentYear={year}
+                  currentMonth={month}
+                  onDateChange={(year, month) => {
+                    setYear(year);
+                    setMonth(month);
+                  }}
+                
+                />
+            </div>
+            <div className="end-items">
+                <span>{year}/</span>
+                <span>{new Date(year, month).toLocaleString("default", { month: "long" }) + ' '}</span>
+            </div>
+            
+        </div>
         <button 
               style={{marginRight:'10px', padding: '3px 10px'}}
               onClick={handleNext}>
@@ -140,11 +190,13 @@ function Calendar (props) {
       >
 
         {dates.map((date, index) => {
-          let isToday;
+          // let isToday;
           if(date.date){
-            isToday = date.date === today.getDate() && 
+            const isToday = date.date === today.getDate() && 
                       month === today.getMonth() && 
                       year === today.getFullYear();
+            const isLastDayOfWeek=date.date===getLastDayOfWeek(year,month, date.date);
+
             return(
                   <div key={nanoid()} 
                         className={`cell`}
@@ -154,7 +206,8 @@ function Calendar (props) {
                                 day={date.date}
                                 month={monthName}
                                 year={year}
-                                isToday={isToday}  
+                                isToday={isToday}
+                                isLastDayOfWeek={isLastDayOfWeek}  
                             />
                       </div>
                   </div>

@@ -1,5 +1,6 @@
 // isCloseToWhite.js - Utility function
 export default function isCloseToWhite(colorString) {
+
     const [r, g, b] = colorString.replace(/[^\d,]/g, "").split(",").map(Number);
 
     // Normalize RGB values (0-1 range)

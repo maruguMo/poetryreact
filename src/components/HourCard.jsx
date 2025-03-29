@@ -18,11 +18,12 @@ function HourCard ( props) {
       if (props.isNow && hourRef.current) {
         hourRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
       }
-    }, [props.isNow]); // Runs when isNow changes   
+    }, [props.isNow]); // Runs when isNow changes
+
     const bgStyle=props.isToday?{
         //set fore color to black if complementary color is close to white else make the color white
-        color:isCloseToWhite(props.complementaryColor)? 'rgb(0,0,0)':'white', 
-        backgroundColor:props.complementaryColor,
+        color:isCloseToWhite(props.compColor)? 'rgb(0,0,0)':'white', 
+        backgroundColor:props.compColor,
     }:{};
     const hr = props.isToday ?
                                 props.isNow ?

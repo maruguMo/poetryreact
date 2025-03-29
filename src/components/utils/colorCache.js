@@ -11,7 +11,9 @@ export class ColorCache {
     set(imageSrc, colors) {
       this.cache.set(imageSrc, colors);
     }
-  
+    has(imageSrc){
+        return this.cache.has(imageSrc);
+    }
     clear() {
       this.cache.clear();
     }
