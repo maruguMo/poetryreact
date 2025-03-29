@@ -31,6 +31,12 @@ const hoursOfDay = Array.from({ length: 24 }, (_, i) => i);
         "/bgimages/bg20.png",
         "/bgimages/bg21.png",
         "/bgimages/bg22.png",
+        "/bgimages/bg23.png",
+        "/bgimages/bg24.png",
+        "/bgimages/bg25.png",
+        "/bgimages/bg27.png",
+        "/bgimages/bg28.png",
+        "/bgimages/bg29.png",
       ];
 //#endregion
 function getBgImage() {
@@ -133,7 +139,7 @@ function DayCard(props) {
       onKeyDown={handleKeyDown}
       onClick={toggleExpand}
     >
-      <p
+      <p style={{margin:0}}
         className={`day-header 
                     ${isExpanded ? "day-header-sticky" : ""}
                     ${props.isToday ? "today-font" : ""}`}
@@ -143,14 +149,50 @@ function DayCard(props) {
         onKeyDown={handleKeyDown}
         
       >
-        {(!isExpanded && props.isLastDayOfWeek) ?"⭐":""}
         {isExpanded ? props.day + " " + props.month : props.day}
+
         {isExpanded && (
           <button className="close-btn" onClick={closeCard}>
             <strong>X</strong>
           </button>
         )}
+        {(!isExpanded && props.isLastDayOfWeek) ?<span>⭐</span>:""}
       </p>
+      { isExpanded && (
+            <div style={{
+
+                          color:'white', 
+                          fontSize:"large",
+                          textAlign:"justify",
+                          display:"flex",
+                        }}>
+              {props.isLastDayOfWeek ? <span style={{
+                                                    backgroundColor:complementaryColor, 
+                                                    margin:'0',
+                                                  }}
+                                        >
+                                          Poem of the week ⭐
+                                        </span>:""}
+              <span style={{
+                          margin:'0', 
+                          width:'100%',
+                          backgroundColor:complementaryColor, 
+                        }}>
+                  Poem of the day ⭐
+              </span>
+              <p style={{
+                          marginTop:"10px",
+                          marginBottom:"0",
+                          textAlign:'center',
+                          fontSize:'larger',
+                          backgroundColor:complementaryColor, 
+                        }}>
+                Poems by the hour
+              </p>
+
+            </div>
+          )
+        }      
       <div className={"hours-of-day"}>
         {isExpanded &&
           hoursOfDay.map((hour) => {
@@ -163,6 +205,7 @@ function DayCard(props) {
                 majorColor={majorColor}
                 compColor={complementaryColor}
                 isToday={props.isToday}
+                header={false}
                 className="hour-card-expanded"
               />
             );

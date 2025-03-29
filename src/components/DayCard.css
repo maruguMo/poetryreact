@@ -68,6 +68,9 @@
     /* transition: all 0.3s ease-in-out; */
   }
 .day-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
     font-family: inherit;
     font-weight:400;
     font-size: large;
