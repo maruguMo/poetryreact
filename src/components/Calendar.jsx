@@ -127,8 +127,8 @@ function Calendar (props) {
   const gridStyle= {
         // display:'grid',
         gridTemplateColumns: `repeat(7, ${colWidth}${props.widthUnits})`,
-        height: `${props.height}${props.heightUnits}`,
-        gridAutoRows: `${rowHeight}%`,  
+        height: `100%`,
+        gridAutoRows: `${rowHeight-1.945}${props.heightUnits}`,  
   };
   // const cellStyle={
   //     height:`${rowHeight}${props.heightUnits}`, 
@@ -137,6 +137,7 @@ function Calendar (props) {
     <div  className="calendar"
           style={calStyle}
     >
+      <span className="poems-by-date"> POETRY CALENDAR</span>
       {/* Header */}
       <div ref={headerRef} 
         className="header"

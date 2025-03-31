@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import HourCard from "./HourCard.jsx";
+import DayCardHeader from "./DayCardHeader.jsx";
 
 import { colorExtractor } from './utils/ImageProcessor.js'; // Refactored 
 
@@ -31,7 +32,6 @@ const hoursOfDay = Array.from({ length: 24 }, (_, i) => i);
         "/bgimages/bg20.png",
         "/bgimages/bg21.png",
         "/bgimages/bg22.png",
-        "/bgimages/bg23.png",
         "/bgimages/bg24.png",
         "/bgimages/bg25.png",
         "/bgimages/bg27.png",
@@ -82,7 +82,7 @@ function DayCard(props) {
         }
         return prevBgImage;
       });
-    }, 1800000);
+    }, 86400000);
 
     return () => clearInterval(interval);
   }, []);
@@ -121,9 +121,9 @@ function DayCard(props) {
   const bgStyle = props.isToday
     ? {
         backgroundImage: `url(${bgImage})`,
-        backgroundSize: "100% 100%",
+        backgroundSize: isExpanded? "60% 100%":"100% 100%",
         backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
+        backgroundPosition: isExpanded?'Top center':"center",
         backgroundColor: majorColor,
         cursor: "pointer",
         backgroundAttachment: "scroll",
@@ -160,36 +160,61 @@ function DayCard(props) {
       </p>
       { isExpanded && (
             <div style={{
+                        color:'white', 
+                        fontSize:"large",
+                        textAlign:"justify",
+                        display:"flex",
+                        flexDirection: 'column',
+                        margin:'0',
+                    }}>
+                      <DayCardHeader
+                        compColor={complementaryColor}
+                      />
+                    <div
+                      style={{display:'flex',
+                              flexDirection:'row',
+                              width:'100%',  
+                              flex:'1',
+                              margin:'0',
+                            }}
+                    >
 
-                          color:'white', 
-                          fontSize:"large",
-                          textAlign:"justify",
-                          display:"flex",
-                        }}>
-              {props.isLastDayOfWeek ? <span style={{
-                                                    backgroundColor:complementaryColor, 
-                                                    margin:'0',
-                                                  }}
-                                        >
-                                          Poem of the week ⭐
-                                        </span>:""}
-              <span style={{
-                          margin:'0', 
-                          width:'100%',
-                          backgroundColor:complementaryColor, 
-                        }}>
-                  Poem of the day ⭐
-              </span>
-              <p style={{
-                          marginTop:"10px",
-                          marginBottom:"0",
-                          textAlign:'center',
-                          fontSize:'larger',
-                          backgroundColor:complementaryColor, 
-                        }}>
-                Poems by the hour
-              </p>
-
+                        {props.isLastDayOfWeek ? <button style={{
+                                                              backgroundColor:complementaryColor, 
+                                                              color:'white',
+                                                              margin:'0',
+                                                              flex:'1',
+                                                            }}
+                                                  >
+                                                    Poem of the week ⭐
+                                                  </button>:""}
+                        <button style={{
+                                    margin:'0', 
+                                    color:'white',
+                                    flex:'1',
+                                    backgroundColor:complementaryColor, 
+                                  }}>
+                            Poem of the day ⭐
+                        </button>
+                        <button style={{
+                                    margin:'0', 
+                                    color:'white',
+                                    flex:'1',
+                                    backgroundColor:complementaryColor, 
+                                  }}>
+                            Featured ⭐
+                        </button>
+                    </div>                      
+              <div>
+                  <p style={{
+                              marginBottom:"0",
+                              textAlign:'center',
+                              fontSize:'larger',
+                              backgroundColor:complementaryColor, 
+                            }}>
+                    Poems by the hour
+                  </p>
+              </div>                          
             </div>
           )
         }      

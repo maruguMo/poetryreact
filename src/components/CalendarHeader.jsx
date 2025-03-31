@@ -42,10 +42,10 @@ function CalendarHeader({ currentYear, currentMonth, onDateChange }) {
             <FormControl variant="filled" 
                          margin='none'
                          hiddenLabel={true}
-                         size='medium'
-                         sx={{ minWidth: 120, marginRight: 0, height: 50, fontSize:'larger'}}>
+                         size='small'
+                         sx={{ minWidth: 120, marginRight: 0, height: 30, fontSize:'small'}}>
                 {/* <InputLabel>Year</InputLabel> */}
-                <Select value={selectedYear} onChange={handleYearChange} sx={{fontSize:'larger'}}>
+                <Select value={selectedYear} onChange={handleYearChange} sx={{fontSize:'small'}}>
                     {years.map((year) => (
                         <MenuItem key={year} value={year}>{year}</MenuItem>
                     ))}
@@ -55,10 +55,10 @@ function CalendarHeader({ currentYear, currentMonth, onDateChange }) {
             <FormControl variant="filled" 
                          margin='none'
                          hiddenLabel={true}
-                         size='medium'
-                         sx={{ minWidth: 120, marginRight: 2 , height: 50  }}>
+                         size='small'
+                         sx={{ minWidth: 120, marginRight: 2 , height: 30  }}>
                 {/* <InputLabel>Month</InputLabel> */}
-                <Select value={selectedMonth} onChange={handleMonthChange} sx={{fontSize:'larger'}}>
+                <Select value={selectedMonth} onChange={handleMonthChange} sx={{fontSize:'small'}}>
                     {availableMonths.map((month, index) => (
                         <MenuItem key={index} value={index}>{month}</MenuItem>
                     ))}

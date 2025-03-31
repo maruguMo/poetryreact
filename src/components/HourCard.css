@@ -9,7 +9,7 @@
     cursor: pointer;
     user-select: none;
     margin: 0;
-    border: 0.32px inset rgb(228, 227, 227);
+    /* border: 0.32px inset rgb(228, 227, 227); */
 }
 .hour-now{
     /* transform: scale(1.05);  */
@@ -25,13 +25,17 @@
 }
 
 .p-header{
-    opacity: 0.8;
+    opacity: 0.87;
+    margin-left: 2px;
+    
+    text-align: left;
     border-radius: 7%;
     margin: 0;
+    padding: 0;
     font-size:large;
     font-weight: 500;
-    width:15%;
-    height:100%;
+    width:20%;
+    height:116%;
     color: white;
     background-color: rgb(8, 36, 36);
 }

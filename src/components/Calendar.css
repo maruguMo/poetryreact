@@ -6,9 +6,10 @@
     font-style: normal;
     /* width: 90dvw;
     height: 90dvh; */
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    /* border: 1px solid #ccc; */
+    /* border-radius: 8px; */
     overflow: hidden;
+    top: 5px;
   }
 
   /*===========================================================================================
@@ -20,18 +21,19 @@
         justify-content: space-between;
         align-items: center;
         width: 90%;
+        height:auto;
       }
       .center-items {
         flex-grow: 1;
         display: flex;
         justify-content: center;
-        font-size: large;
+        font-size:medium;
       }
 
       .end-items {
         display: flex;
         justify-content: flex-end;
-        font-size:large;
+        font-size:medium;
       }  
       .header {
         display: flex;
@@ -65,9 +67,9 @@
       .days-of-week {
         font-family: "Exo 2", sans-serif;
         font-optical-sizing:auto;
-        position: sticky;
-        font-size:large;
-        font-weight:400;
+        /* position: sticky; */
+        font-size:medium;
+        font-weight:200;
         font-style:normal;
         display: grid;
         grid-template-columns: repeat(7, 1fr);
@@ -84,7 +86,7 @@
     display: grid;
     /* grid-template-columns: repeat(7, 1fr); */
     overflow: none;
-    height: 90%;
+    height: 100%;
   }
   
   .cell {

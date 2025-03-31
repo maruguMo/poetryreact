@@ -40,7 +40,6 @@ function HourCard ( props) {
     >
       <span
         className="p-header"
-
         style={bgStyle}
       >
           {hr}
