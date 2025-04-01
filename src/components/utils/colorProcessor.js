@@ -22,7 +22,7 @@ export class DefaultColorProcessor {
         g = Math.round(g / count);
         b = Math.round(b / count);
 
-        const majorColor = `rgb(${r}, ${g}, ${b}), 0.967`;
+        const majorColor = `rgb(${r}, ${g}, ${b})`;
         const complementaryColor = `rgb(${255 - r}, ${255 - g}, ${255 - b})`;
 
         return { majorColor, complementaryColor };

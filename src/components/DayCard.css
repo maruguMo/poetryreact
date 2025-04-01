@@ -12,7 +12,7 @@
     border-radius: 2%;
     border:1px solid black;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    transform: translate(0%, -50%); /* Centers it */
+    transform: translate(0%, -50%); 
     z-index: 1000; /* Ensures it's above everything */
     overflow-y: auto; /* Allows scrolling */
     opacity: 100;

@@ -4,11 +4,12 @@
     font-family: "Alegreya Sans", sans-serif;
     font-weight: 300;
     font-style: normal;
+    opacity: 1;
     /* width: 90dvw;
     height: 90dvh; */
     /* border: 1px solid #ccc; */
     /* border-radius: 8px; */
-    overflow: hidden;
+    /* overflow:; */
     top: 5px;
   }
 
@@ -35,7 +36,7 @@
         justify-content: flex-end;
         font-size:medium;
       }  
-      .header {
+      /* .header {
         display: flex;
         flex-direction: row;
         font-family: "Exo 2", sans-serif;
@@ -44,12 +45,12 @@
         justify-content: space-between;
         align-items: center;
         background-color: #f4f4f4;
-        padding: 8px;
+        padding: 0px;
         text-align: center;
         position:sticky;
         top: 0;
         z-index: 10;
-      }
+      } */
       .btn-style{
         /* padding-left: 1%; */
         padding-right: 2%;
@@ -66,17 +67,29 @@
       
       .days-of-week {
         font-family: "Exo 2", sans-serif;
-        font-optical-sizing:auto;
         /* position: sticky; */
         font-size:medium;
         font-weight:200;
         font-style:normal;
         display: grid;
-        grid-template-columns: repeat(7, 1fr);
+        width: 100%;
+        /* grid-template-columns: repeat(7,1fr); */
         text-align: center;
         background-color: #e0e0e0;
         padding: 4px 0;
         z-index: 10;
+      }
+      .poems-by-date{
+        font-family: "Exo 2", sans-serif;
+        font-style: large;
+        font-weight: 300;
+        background-color: #f4f4f4;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 0;
+        margin-top: 1px;
+        height: 4dvh;
+        border-radius: 5%;
       }
 /* ===========================================================================================================
     End of header region styling 

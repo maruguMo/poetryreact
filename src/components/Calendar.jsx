@@ -38,15 +38,16 @@ function Calendar (props) {
 
     // Ensure a complete last row
     const extraSlots = datesInMonth.length % 7;
-    let calRows=parseInt(datesInMonth.length/7);
     if (extraSlots !== 0) {
-        calRows+=1;
+        // calRows+=1;
         for (let i = extraSlots; i < 7; i++) {
             datesInMonth.push({date:null, id:nanoid()});
         }
     }
+    const calRows=parseInt(datesInMonth.length/7);
+    console.log(calRows);
 
-    setNumRows(calRows)
+    setNumRows(calRows);
     return datesInMonth;
   };
   function getLastDayOfWeek(y,m,d){
@@ -114,21 +115,27 @@ function Calendar (props) {
       return prev + 1;
     });
   }
+  const rowHeight=props.height/numRows;
+  const colWidth=props.width/7;
+
   const calStyle={
     width: `${props.width}${props.widthUnits}`,
-    height:`${props.height}${props.heightUnits}`
+    height:`${props.height}${props.heightUnits}`,
+    backgroundColor:props.majorColor,
+    
   }
   const headerStyle={
-    width:`${props.width}${props.widthUnits}`
+    width:`${colWidth*7}${props.widthUnits}`
   }
-  const rowHeight=props.height/numRows;
-  const colWidth=props.width/7
+
 
   const gridStyle= {
         // display:'grid',
-        gridTemplateColumns: `repeat(7, ${colWidth}${props.widthUnits})`,
-        height: `100%`,
-        gridAutoRows: `${rowHeight-1.945}${props.heightUnits}`,  
+        gridTemplateColumns: `repeat(7, ${colWidth}dvw)`,//${props.widthUnits}
+        gridAutoRows: `${rowHeight}dvh`,//${props.heightUnits},
+        border:`0.45px solid grey`,
+        borderRadius:'3%',
+        backgroundColor: props.majorColor,   
   };
   // const cellStyle={
   //     height:`${rowHeight}${props.heightUnits}`, 
@@ -137,11 +144,11 @@ function Calendar (props) {
     <div  className="calendar"
           style={calStyle}
     >
-      <span className="poems-by-date"> POETRY CALENDAR</span>
+      <p className="poems-by-date"> POETRY CALENDAR</p>
       {/* Header */}
       <div ref={headerRef} 
         className="header"
-        style={{...headerStyle,paddingRight:'2px'}}
+        style={{...headerStyle}}
       >
         <button 
             onClick={handlePrev}>
@@ -175,7 +182,8 @@ function Calendar (props) {
       {/* Days of the Week */}
       <div className="days-of-week"
            style={{ top: `${subHeaderTop}px`,
-                  ...headerStyle }}
+                    gridTemplateColumns: `repeat(7, ${colWidth}dvw)`,
+                }}
           key={nanoid()}
       >
           <span>Sun</span>
@@ -208,7 +216,8 @@ function Calendar (props) {
                                 month={monthName}
                                 year={year}
                                 isToday={isToday}
-                                isLastDayOfWeek={isLastDayOfWeek}  
+                                isLastDayOfWeek={isLastDayOfWeek}
+                                onDayCardData={props.onDayCardData}  
                             />
                       </div>
                   </div>

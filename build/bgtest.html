@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CSS Background-Blend-Mode Examples</title>
+<style>
+  .blend-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  p{
+    background-color: black;
+    color: white;
+    text-align: center;
+  }
+  .blend-example {
+    width: 300px;
+    height: 200px;
+    border: 1px solid black;
+    background: url('./bgimages/bg6.png'), white;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    }
+</style>
+</head>
+<body>
+  <div class="blend-container">
+    <div class="blend-example" style="background-blend-mode: normal;">
+        <p>Normal</p>
+    </div>
+    <div class="blend-example" style="background-blend-mode: multiply;">
+        <p>Multiply</p>
+    </div>
+    <div class="blend-example" style="background-blend-mode: screen;">
+        <p>Screen</p>
+    </div>
+    <div class="blend-example" style="background-blend-mode: overlay;"><p>Overlay</p></div>
+    <div class="blend-example" style="background-blend-mode: darken;"><p>Darken</p></div>
+    <div class="blend-example" style="background-blend-mode: lighten;"><p>Lighten</p></div>
+    <div class="blend-example" style="background-blend-mode: color-dodge;"><p>Color Dodge</p></div>
+    <div class="blend-example" style="background-blend-mode: color-burn;"><p>Color Burn</p></div>
+    <div class="blend-example" style="background-blend-mode: hard-light;"><p>Hard Light</p></div>
+    <div class="blend-example" style="background-blend-mode: soft-light;"><p>Soft Light</p></div>
+    <div class="blend-example" style="background-blend-mode: difference;"><p>Difference</p></div>
+    <div class="blend-example" style="background-blend-mode: exclusion;"><p>Exclusion</p></div>
+    <div class="blend-example" style="background-blend-mode: hue;"><p>Hue</p></div>
+    <div class="blend-example" style="background-blend-mode: saturation;"><p>Saturation</p></div>
+    <div class="blend-example" style="background-blend-mode: color;"><p>Color</p></div>
+    <div class="blend-example" style="background-blend-mode: luminosity;"><p>Luminosity</p></div>
+  </div>
+</body>
+</html>

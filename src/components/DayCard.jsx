@@ -59,6 +59,7 @@ function DayCard(props) {
         setMajorColor(majorColor);
         setComplementaryColor(complementaryColor);
 
+
     } catch (error) {
       console.error("Image processing failed:", error);
       setMajorColor("rgb(124, 124, 124)");

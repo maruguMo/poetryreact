@@ -40,10 +40,12 @@ function PoetryAppBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static"
+      sx={{width:'100%'}}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' },  mr: 1 }} />
+          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, height:"80%",  mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -127,57 +129,59 @@ function PoetryAppBar() {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 1 }} />
-          {isLoggedIn && (
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                    <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="error">
-                        <MailIcon />
-                    </Badge>
-                    </IconButton>
-                    <IconButton
-                    size="large"
-                    aria-label="show 17 new notifications"
-                    color="inherit"
-                    >
-                    <Badge badgeContent={17} color="error">
-                        <NotificationsIcon />
-                    </Badge>
-                    </IconButton>
-                </Box>    
-                <Box sx={{ flexGrow: 1 }} />      
-                <Box sx={{ flexGrow: 0 }}>
-                    <Tooltip title="Open settings">
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                    </IconButton>
-                    </Tooltip>
-                    <Menu
-                    sx={{ mt: '45px' }}
-                    id="menu-appbar"
-                    anchorEl={anchorElUser}
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    open={Boolean(anchorElUser)}
-                    onClose={handleCloseUserMenu}
-                    >
-                    {settings.map((setting) => (
-                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                        <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
-                        </MenuItem>
-                    ))}
-                    </Menu>
-                </Box>
-            </Box>
-            )}
+          <Box sx={{ flexGrow: 0 }} />
+          <Box sx={{ ml: 'auto', display: 'flex' }}>
+            {isLoggedIn && (
+              <Box sx={{display:'flex', flexGrow:0, ml:'auto'}}>
+                  <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                      <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                      <Badge badgeContent={4} color="error">
+                          <MailIcon />
+                      </Badge>
+                      </IconButton>
+                      <IconButton
+                      size="large"
+                      aria-label="show 17 new notifications"
+                      color="inherit"
+                      >
+                      <Badge badgeContent={17} color="error">
+                          <NotificationsIcon />
+                      </Badge>
+                      </IconButton>
+                  </Box>    
+                  <Box sx={{ flexGrow: 1 }} />      
+                  <Box sx={{ flexGrow: 0 }}>
+                      <Tooltip title="Open settings">
+                      <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                          <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                      </IconButton>
+                      </Tooltip>
+                      <Menu
+                      sx={{ mt: '45px' }}
+                      id="menu-appbar"
+                      anchorEl={anchorElUser}
+                      anchorOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                      }}
+                      open={Boolean(anchorElUser)}
+                      onClose={handleCloseUserMenu}
+                      >
+                      {settings.map((setting) => (
+                          <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                          <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+                          </MenuItem>
+                      ))}
+                      </Menu>
+                  </Box>
+              </Box>
+              )}
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
