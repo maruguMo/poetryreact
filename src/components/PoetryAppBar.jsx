@@ -64,7 +64,7 @@ function PoetryAppBar() {
             micropoetry
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'flex-start' }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -149,7 +149,7 @@ function PoetryAppBar() {
                       </Badge>
                       </IconButton>
                   </Box>    
-                  <Box sx={{ flexGrow: 1 }} />      
+                  <Box sx={{ flexGrow: 1, m:2 }} />      
                   <Box sx={{ flexGrow: 0 }}>
                       <Tooltip title="Open settings">
                       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

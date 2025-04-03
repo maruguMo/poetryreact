@@ -1,92 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import HourCard from "./HourCard.jsx";
-import DayCardHeader from "./DayCardHeader.jsx";
-
-import { colorExtractor } from './utils/ImageProcessor.js'; // Refactored 
+import { useAppContext } from "./AppContext.js";
 
 import "./DayCard.css";
 // Define the hours of the day
 const hoursOfDay = Array.from({ length: 24 }, (_, i) => i);
-//#region images paths 
-      const images = [
-        "/bgimages/bg1.png",
-        "/bgimages/bg2.png",
-        "/bgimages/bg3.png",
-        "/bgimages/bg4.png",
-        "/bgimages/bg5.png",
-        "/bgimages/bg6.png",
-        "/bgimages/bg7.png",
-        "/bgimages/bg8.png",
-        "/bgimages/bg9.png",
-        "/bgimages/bg10.png",
-        "/bgimages/bg11.png",
-        "/bgimages/bg12.png",
-        "/bgimages/bg13.png",
-        "/bgimages/bg14.png",
-        "/bgimages/bg15.png",
-        "/bgimages/bg16.png",
-        "/bgimages/bg17.png",
-        "/bgimages/bg18.png",
-        "/bgimages/bg19.png",
-        "/bgimages/bg20.png",
-        "/bgimages/bg21.png",
-        "/bgimages/bg22.png",
-        "/bgimages/bg24.png",
-        "/bgimages/bg25.png",
-        "/bgimages/bg27.png",
-        "/bgimages/bg28.png",
-        "/bgimages/bg29.png",
-      ];
-//#endregion
-function getBgImage() {
-  const randomIndex = Math.floor(Math.random() * images.length);
-  return images[randomIndex];
-}
 
 function DayCard(props) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [hourNow, setHourNow] = useState(new Date().getHours());
-  const [bgImage, setBgImage] = useState(getBgImage());
-  const [complementaryColor, setComplementaryColor] = useState('rgb(0,0,0)');
-  const [majorColor, setMajorColor] = useState();
-
-  // Refactored image processing with graceful failure
-  const processImageColors = async (image) => {
-    try {
-      const { majorColor, complementaryColor } =  await colorExtractor.extract(image)
-        // console.log("Color extracted:", colorData);
-        setMajorColor(majorColor);
-        setComplementaryColor(complementaryColor);
-
-
-    } catch (error) {
-      console.error("Image processing failed:", error);
-      setMajorColor("rgb(124, 124, 124)");
-      setComplementaryColor("rgb(0,0,0)'");
-    }
-  };
-
-  // Change background on load
-  useEffect(() => {
-    processImageColors(bgImage);
-  }, [bgImage]);
-
-  // Automatically change background every 30 minutes
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setBgImage((prevBgImage) => {
-        const newBgImage = getBgImage();
-        if (newBgImage !== prevBgImage) {
-          processImageColors(newBgImage);
-          return newBgImage;
-        }
-        return prevBgImage;
-      });
-    }, 86400000);
-
-    return () => clearInterval(interval);
-  }, []);
+  const { bgImage, majorColor, complementaryColor, handleDayClick } = useAppContext();
+  const [selectedCard, setSelectedCard] = useState(false);
 
   // Track hour changes
   useEffect(() => {
@@ -101,10 +26,17 @@ function DayCard(props) {
   }, [hourNow]);
 
   function toggleExpand() {
+    setSelectedCard(true)
     if (!isExpanded) {
       setIsExpanded(true);
     }
     setHourNow(new Date().getHours());
+
+    // handleDayClick({d:props.day,
+    //   m:props.month,
+    //   y:props.year,  
+
+    // })
   }
 
   function closeCard(e) {
@@ -134,8 +66,10 @@ function DayCard(props) {
   return (
     <div
       key={nanoid()}
-      className={`the-day ${isExpanded ? "expanded" : "collapsed"} 
-                  ${props.isToday ? "today" : ""}`}
+      className={`the-day today ${isExpanded ? "expanded" : "collapsed"} 
+                    ${selectedCard? "today" :""}
+                   
+                  `}
       style={bgStyle}
       onKeyDown={handleKeyDown}
       onClick={toggleExpand}
@@ -150,7 +84,7 @@ function DayCard(props) {
         onKeyDown={handleKeyDown}
         
       >
-        {isExpanded ? props.day + " " + props.month : props.day}
+        {isExpanded ? props.day + " " + props.monthName : props.day}
 
         {isExpanded && (
           <button className="close-btn" onClick={closeCard}>
@@ -159,7 +93,7 @@ function DayCard(props) {
         )}
         {(!isExpanded && props.isLastDayOfWeek) ?<span>⭐</span>:""}
       </p>
-      { isExpanded && (
+       {/* {isExpanded && (
             <div style={{
                         color:'white', 
                         fontSize:"large",
@@ -218,7 +152,7 @@ function DayCard(props) {
               </div>                          
             </div>
           )
-        }      
+        }       */}
       <div className={"hours-of-day"}>
         {isExpanded &&
           hoursOfDay.map((hour) => {

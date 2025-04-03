@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useMemo} from "react";
 import { nanoid } from 'nanoid'
 import DayCard from "./DayCard";
 import "./Calendar.css"; // Import CSS for styling
 import CalendarHeader from "./CalendarHeader";
+import { useAppContext } from "./AppContext.js";
 
 function Calendar (props) {
 
@@ -14,63 +15,63 @@ function Calendar (props) {
   const headerRef=React.useRef(null);
   const [subHeaderTop, setSubheaderTop]=React.useState();
   const [numRows, setNumRows]=React.useState();
+  const {majorColor, complementaryColor } = useAppContext();
 
+  const getCurrentMonthDates = useMemo(() => {
+    return (year, month) => {
+      const startDate = new Date(year, month, 1);
+      const endDate = new Date(year, month + 1, 0);
 
-  const getCurrentMonthDates = (year, month) => {
-    const startDate = new Date(year, month, 1);
-    const endDate = new Date(year, month + 1, 0);
+      const firstDayOfWeek = startDate.getDay();
+      const lastDateOfMonth = endDate.getDate();
 
-    const firstDayOfWeek = startDate.getDay(); // Saturday = 6 (0-based, Sunday start)
-    const lastDateOfMonth = endDate.getDate();
+      const datesInMonth = [];
+      let currentDate = 1;
 
-    const datesInMonth = [];
-    let currentDate = 1;
+      for (let i = 0; i < firstDayOfWeek; i++) {
+        datesInMonth.push({ date: null, id: nanoid() });
+      }
 
-    // Fill in the empty slots before the first day of the month
-    for (let i = 0; i < firstDayOfWeek; i++) {
-        datesInMonth.push({date:null, id:nanoid()});
-    }
+      while (currentDate <= lastDateOfMonth) {
+        datesInMonth.push({ date: currentDate++, id: nanoid() });
+      }
 
-    // Add the actual days of the month
-    while (currentDate <= lastDateOfMonth) {
-        datesInMonth.push({date:currentDate++,id:nanoid()});
-    }
-
-    // Ensure a complete last row
-    const extraSlots = datesInMonth.length % 7;
-    if (extraSlots !== 0) {
-        // calRows+=1;
+      const extraSlots = datesInMonth.length % 7;
+      if (extraSlots !== 0) {
         for (let i = extraSlots; i < 7; i++) {
-            datesInMonth.push({date:null, id:nanoid()});
+          datesInMonth.push({ date: null, id: nanoid() });
         }
-    }
-    const calRows=parseInt(datesInMonth.length/7);
-    console.log(calRows);
+      }
+      const calRows = parseInt(datesInMonth.length / 7);
+      console.log(calRows);
 
-    setNumRows(calRows);
-    return datesInMonth;
-  };
-  function getLastDayOfWeek(y,m,d){
+      setNumRows(calRows);
+      return datesInMonth;
+    };
+  }, []);
 
-    if (typeof y !== 'number' || typeof m !== 'number' || typeof d !== 'number') {
-      throw new Error("Year, month, and day must be numbers");
-    }
+  const getLastDayOfWeek = useMemo(() => {
+    return (y, m, d) => {
+      if (typeof y !== 'number' || typeof m !== 'number' || typeof d !== 'number') {
+        throw new Error("Year, month, and day must be numbers");
+      }
 
-    if (y < 2020) {
-        throw new Error("Year cannot be less than 2020");
-    }
+      if (y < 2020) {
+          throw new Error("Year cannot be less than 2020");
+      }
 
-    if (m < 0 || m > 11) {
-      throw new Error("Month must be between 0 (January) and 11 (December)");
-    }
+      if (m < 0 || m > 11) {
+        throw new Error("Month must be between 0 (January) and 11 (December)");
+      }
 
-    if (d < 1 || d > 31) {
-      throw new Error("Day must be between 1 and 31");
-    }
-    const date= new Date(y,m,d);
-    return date.getDate() - (date.getDay() - 1) + 5;
-
-  }
+      if (d < 1 || d > 31) {
+        throw new Error("Day must be between 1 and 31");
+      }
+      const date= new Date(y,m,d);
+      return date.getDate() - (date.getDay() - 1) + 5;
+    };
+  }, []);
+  
 
   React.useEffect(()=>{
     if (headerRef.current){
@@ -121,21 +122,22 @@ function Calendar (props) {
   const calStyle={
     width: `${props.width}${props.widthUnits}`,
     height:`${props.height}${props.heightUnits}`,
-    backgroundColor:props.majorColor,
+    backgroundColor:majorColor,
     
   }
   const headerStyle={
     width:`${colWidth*7}${props.widthUnits}`
   }
 
-
   const gridStyle= {
         // display:'grid',
         gridTemplateColumns: `repeat(7, ${colWidth}dvw)`,//${props.widthUnits}
         gridAutoRows: `${rowHeight}dvh`,//${props.heightUnits},
         border:`0.45px solid grey`,
-        borderRadius:'3%',
-        backgroundColor: props.majorColor,   
+        borderRadius:'2%',
+        backgroundColor:'lightgray',
+        boxShadow:`0px 10px 10px ${complementaryColor}`
+       
   };
   // const cellStyle={
   //     height:`${rowHeight}${props.heightUnits}`, 
@@ -213,7 +215,8 @@ function Calendar (props) {
                       <div  className={`fill-cell`}>
                             <DayCard
                                 day={date.date}
-                                month={monthName}
+                                monthName={monthName}
+                                month={month}
                                 year={year}
                                 isToday={isToday}
                                 isLastDayOfWeek={isLastDayOfWeek}
