@@ -1,31 +1,29 @@
+/* App.css */
 .App {
   text-align: center;
-  /* left:2%; */
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* justify-content: flex-start; */
-  /* align-items: flex-start; */
-  position:absolute;
+  position: absolute;
   top: 2%;
   left: 50%;
   transform: translate(-50%, -3%);
-  height:99dvh;
+  height: 99dvh;
   width: 98dvw;
   padding: 10px;
   overflow: hidden;
-  /* margin:15px; */
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
-.poems-by-date{
-  left: 2px;
-}
-.app-parts{
+
+.app-parts {
   display: flex;
   flex-direction: row;
+}
+@media (max-width: 600px) {
+  .App {
+    flex-direction: column;
+  }
 }
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -34,7 +32,6 @@
 }
 
 .App-header {
-  /* background-color: #dbdee4; */
   min-height: 10vh;
   display: flex;
   flex-direction: row;
@@ -42,7 +39,6 @@
   justify-content: flex-start;
   font-size: calc(10px + 2vmin);
   width: 100%;
-  /* color: white; */
 }
 
 .App-link {
