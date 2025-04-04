@@ -1,28 +1,40 @@
 import React from "react";
 import { Typography } from "@mui/material";
+import { useAppContext } from "./AppContext.js";
 
-const QuoteOfDay = React.memo(({daysQuote, lumens})=>{
+const QuoteOfDay = React.memo(({daysQuote, lumens, isExpanded})=>{
+    const {complementaryColor,isSmallScreen}=useAppContext();
+    const posStyle = {
+        display: 'flex',
+        alignItems:isSmallScreen? 'center':'flex-end', // Always align to the bottom
+        bottom: isSmallScreen?'0':'20px',
+        width: isSmallScreen ? '100dvw' : '300px', // Full width on small screens, auto on large
+        top: isSmallScreen ? '88%' : '90%', 
+        // transform: isSmallScreen ? 'translateY(-150%)' : 'translateY(-150)', 
+        textAlign:isSmallScreen?"center":"left",
+    };
     return(
         <Typography
             variant="h6"
             sx={{
-              backgroundColor:lumens? 'black': 'black',
+              backgroundColor: 'black',
               fontFamily:'Alegreya Sans, Roboto, sans-serif',
               color: 'white',
-              padding: '10px',
+              position:'fixed',
               borderRadius: '8px', 
-              position: 'absolute',
-              bottom: '20px',
-              right: '20px',
-              maxWidth: '300px',
-              boxShadow: '0px 0px 10px rgba(0,0,0,0.5)',
+              height:'fit-content',
+              boxShadow: `0px 10px 10px ${complementaryColor}`,
               fontWeight:'light',
               fontStyle:'normal',
               fontSize:14,
-              align:"left",
+              padding:'10px',
+              left: '100%', 
+              transform:'translateX(-100%)',
+              zIndex:5,      
+              ...posStyle
             }}
         >
-            {'Todays Quoute: '+ daysQuote}
+            {daysQuote}
         </Typography>
     )
 })

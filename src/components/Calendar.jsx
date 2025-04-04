@@ -15,7 +15,8 @@ function Calendar (props) {
   const headerRef=React.useRef(null);
   const [subHeaderTop, setSubheaderTop]=React.useState();
   const [numRows, setNumRows]=React.useState();
-  const {majorColor, complementaryColor } = useAppContext();
+  const {complementaryColor,majorColor, calendarWidth,calWidthUnits,
+          calendarHeight,calHeightUnits}=useAppContext();
 
   const getCurrentMonthDates = useMemo(() => {
     return (year, month) => {
@@ -43,7 +44,6 @@ function Calendar (props) {
         }
       }
       const calRows = parseInt(datesInMonth.length / 7);
-      console.log(calRows);
 
       setNumRows(calRows);
       return datesInMonth;
@@ -120,11 +120,12 @@ function Calendar (props) {
   const colWidth=props.width/7;
 
   const calStyle={
-    width: `${props.width}${props.widthUnits}`,
-    height:`${props.height}${props.heightUnits}`,
+    width: `${calendarWidth}${calWidthUnits}`,
+    height:`${calendarHeight}${calHeightUnits}`,
     backgroundColor:majorColor,
-    
+ 
   }
+  // console.log('calStyle', calStyle);
   const headerStyle={
     width:`${colWidth*7}${props.widthUnits}`
   }
@@ -132,7 +133,8 @@ function Calendar (props) {
   const gridStyle= {
         // display:'grid',
         gridTemplateColumns: `repeat(7, ${colWidth}dvw)`,//${props.widthUnits}
-        gridAutoRows: `${rowHeight}dvh`,//${props.heightUnits},
+        height:'100%',
+        // gridAutoRows: `${rowHeight}dvh`,//${props.heightUnits},
         border:`0.45px solid grey`,
         borderRadius:'2%',
         backgroundColor:'lightgray',
@@ -146,7 +148,6 @@ function Calendar (props) {
     <div  className="calendar"
           style={calStyle}
     >
-      <p className="poems-by-date"> POETRY CALENDAR</p>
       {/* Header */}
       <div ref={headerRef} 
         className="header"

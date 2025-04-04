@@ -11,10 +11,13 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+// import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import Badge from '@mui/material/Badge';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import Logo from './Logo.jsx';
+import { useAppContext } from './AppContext.js';
+
 
 const pages = ['Submit Poems', 'Poetry Forms', 'Contests', 'Blogs', 'Famous Poems'];
 const settings = ['Profile', 'My Poems', 'Inbox', 'Outbox', 'Logout'];
@@ -23,6 +26,7 @@ function PoetryAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const isLoggedIn = true; // Placeholder auth state
+  const {isSmallScreen}=useAppContext()
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -41,13 +45,13 @@ function PoetryAppBar() {
 
   return (
     <AppBar position="static"
-      sx={{width:'100%'}}
+      sx={{width:'100%', top:0}}
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, height:"80%",  mr: 1 }} />
+          <Logo width={40} height={40} />
           <Typography
-            variant="h6"
+            variant="body1"
             noWrap
             component="a"
             href="#app-bar-with-responsive-menu"
@@ -61,7 +65,8 @@ function PoetryAppBar() {
               textDecoration: 'none',
             }}
           >
-            micropoetry
+            <Box sx={{ flexGrow: 1, m:isSmallScreen?0:1 }} />
+            MICROPOETRY
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'flex-start' }}>
@@ -98,9 +103,8 @@ function PoetryAppBar() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
-            variant="h5"
+            variant="h6"
             noWrap
             component="a"
             href="#app-bar-with-responsive-menu"
@@ -115,7 +119,8 @@ function PoetryAppBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            <Box sx={{ flexGrow: 1, m:isSmallScreen?0:1 }} />
+            MICROPOETRY
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (

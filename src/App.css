@@ -39,12 +39,27 @@
   justify-content: flex-start;
   font-size: calc(10px + 2vmin);
   width: 100%;
+  top: 0;
+  padding: 0;
+  margin: 0;
 }
 
 .App-link {
   color: #61dafb;
 }
-
+.fab-and-title{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  }
+.poetry-calendar-top{
+  display: flex;
+  flex-direction: column;
+}
+.poetry-calendar-bottom{
+  display: flex;
+  flex-direction: column;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

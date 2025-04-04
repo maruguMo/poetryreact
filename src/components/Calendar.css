@@ -5,11 +5,6 @@
     font-weight: 300;
     font-style: normal;
     opacity: 1;
-    /* width: 90dvw;
-    height: 90dvh; */
-    /* border: 1px solid #ccc; */
-    /* border-radius: 8px; */
-    /* overflow:; */
     top: 5px;
   }
 
@@ -36,21 +31,6 @@
         justify-content: flex-end;
         font-size:medium;
       }  
-      /* .header {
-        display: flex;
-        flex-direction: row;
-        font-family: "Exo 2", sans-serif;
-        font-style: normal;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #f4f4f4;
-        padding: 0px;
-        text-align: center;
-        position:sticky;
-        top: 0;
-        z-index: 10;
-      } */
       .btn-style{
         /* padding-left: 1%; */
         padding-right: 2%;
@@ -97,7 +77,6 @@
 
   .grid {
     display: grid;
-    /* grid-template-columns: repeat(7, 1fr); */
     overflow: none;
     height: 100%;
   }
@@ -120,20 +99,5 @@
     background-color: #f9f9f9;
     color: #aaa;
   }
-  .highlight {
-    font-family: "Exo 2", sans-serif;
-    font-weight:800;
-    color: #712baab9; /* Different text color */
-  }
 
-  .highlightcircle::before {
-    position: absolute;
-    width: 1.25vw;
-    height: 2.5vh;
-    top: 50%;
-    left: 50%;
-    background: #712baab9; /* Translucent circle */
-    border-radius: 50%;
-    z-index: 5;
-  }
   

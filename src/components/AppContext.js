@@ -2,6 +2,7 @@
 import React, { createContext, useState,useEffect, useContext } from 'react';
 import { colorExtractor } from './utils/ImageProcessor.js'; // Refactored 
 import { getBgImage } from './utils/bgImage.js';
+import { useMediaQuery } from '@mui/material';
 
 // Step 1: Create context
 const AppContext = createContext();
@@ -12,9 +13,14 @@ export function AppProvider({ children }) {
     const [majorColor, setMajorColor] = useState('bisque');
     const [complementaryColor, setComplementaryColor] = useState('rgb(0,0,0)');
     const [selectedDate, setSelectedDate] = useState(new Date()); // For descendant -> ancestor to initial value to today
-    const [daysQuote, setDaysQuote]=useState()
+    const [daysQuote, setDaysQuote]=useState();
+    const isSmallScreen = useMediaQuery("(max-width: 600px)");
+    const [calendarWidth, setCalendarWidth]=useState(isSmallScreen?98:25);
+    const [calWidthUnits, setCalWidthUnits]=useState('dvw');
+    const [calendarHeight, setCalendarHeight]=useState(isSmallScreen?22:30);
+    const [calHeightUnits, setCalHeightUnits]=useState('dvh');
 
-        // Function so change only image and the contex will handle the rest
+    // Function so change only image and the contex will handle the rest
         const updateTheme = (image, quote ) => {
             //once the bgImage is changed, the useEffect will trigger the processing of image colors
             setBgImage(image);
@@ -43,6 +49,20 @@ export function AppProvider({ children }) {
         };
     
         // Change background on load
+        useEffect( () => {
+        //check if its a small screen and size the component appropriately
+            console.log(isSmallScreen);
+            const calWidth=isSmallScreen?98:25;
+            const calWidthUnts='dvw';
+            const calHeight=isSmallScreen?30:30;
+            const calHeightUnts='dvh';
+            setCalendarWidth(calWidth);
+            setCalWidthUnits(calWidthUnts);
+            setCalendarHeight(calHeight);
+            setCalHeightUnits(calHeightUnts);
+            
+        }, []);
+
         useEffect(() => {
             processImageColors(bgImage);
         }, [bgImage]);
@@ -73,7 +93,12 @@ export function AppProvider({ children }) {
                 selectedDate,
                 daysQuote,
                 updateTheme,
-                handleDayClick
+                handleDayClick,
+                calendarWidth,
+                calWidthUnits,
+                calendarHeight,
+                calHeightUnits,
+                isSmallScreen,
             }}
         >
             {children}
