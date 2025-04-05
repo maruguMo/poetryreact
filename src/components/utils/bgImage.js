@@ -26,7 +26,12 @@ const images = [
   { bgImage: "/bgimages/bg42.png", quote: "The only true wisdom is in knowing you know nothing. — Socrates" },
   { bgImage: "/bgimages/bg43.png", quote: "The only way to deal with fear is to face it head-on. — Unknown" },
   { bgImage: "/bgimages/bg44.png", quote: "The best thing about the future is that it comes one day at a time. — Norman Vincent Peale" },
-  { bgImage: "/bgimages/bg45.png", quote: "The highest form of ignorance is when you reject something you don't know anything about. — Wayne Dyer" }
+  { bgImage: "/bgimages/bg45.png", quote: "The highest form of ignorance is when you reject something you don't know anything about. — Wayne Dyer" },
+  {bgImage: "/bgimages/bg46.png", quote: "The only impossible journey is the one you never begin. — Tony Robbins" },
+  {bgImage: "/bgimages/bg47.png", quote: "The only way to do great work is to love what you do. — Steve Jobs" },  
+  {bgImage: "/bgimages/bg48.png", quote: "The only limit to our realization of tomorrow is our doubts of today. — Franklin D. Roosevelt" },
+  {bgImage: "/bgimages/bg49.png", quote: "The only way to find the limits of the possible is by going beyond them into the impossible. — Arthur C. Clarke" },
+  {bgImage: "/bgimages/bg50.png", quote: "The only thing we have to fear is fear itself. — Franklin D. Roosevelt" },
 ];
 
 // const images = [

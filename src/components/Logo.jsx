@@ -17,4 +17,4 @@ function Logo({ width = 50, height = 50 }) {
     );
 }
 
-export default Logo;
+export default React.memo(Logo);

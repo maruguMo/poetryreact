@@ -30,4 +30,4 @@ function DayCardHeader(props) {
   );
 }
 
-export default DayCardHeader;
+export default React.memo(DayCardHeader);

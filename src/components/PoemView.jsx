@@ -18,6 +18,7 @@ function PoemView({ poem, onClose }) {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        cursor: "pointer",
         // justifyContent: "center",
         padding: 4,
         overflowY: "auto",
@@ -41,4 +42,4 @@ function PoemView({ poem, onClose }) {
   );
 }
 
-export default PoemView;
+export default React.memo(PoemView);

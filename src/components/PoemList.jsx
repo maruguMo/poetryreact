@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Card, CardContent, Typography, List, ListItem, ListItemText } from "@mui/material";
 import PoemView from "./PoemView"; // New Component
+import {useAppContext } from './AppContext.js';
 import poems from "./poems"; // Sample data
 
 function PoemList({ viewMode, title, ListWidth, ListHeight }) {
   const [selectedPoem, setSelectedPoem] = useState(null);
+  const{isSmallScreen}=useAppContext();
 
   if (selectedPoem) {
     return <PoemView poem={selectedPoem} onClose={() => setSelectedPoem(null)} />;
@@ -15,8 +17,23 @@ function PoemList({ viewMode, title, ListWidth, ListHeight }) {
         height:{ListHeight},
         width:{ListWidth},
         backgroundColor:'lightgray',
+        cursor:'pointer',
+        position:"relative",
+        margin:0,
+        padding:0,
         }}>
-      <Typography variant="h6" gutterBottom style={{ textAlign: "center", marginTop: 10 }}> 
+      <Typography variant="h6" 
+                  gutterBottom style={{ 
+                  textAlign:isSmallScreen?"left":"center", 
+                  marginTop: 10,
+                  fontFamily:'"Exo 2", sans-serif',
+                  fontSize:isSmallScreen?'medium': 'large',
+                  fontStyle:'normal',
+                  padding:0,
+                  fontWeight: 300,
+                  width:"100%",
+                  paddingLeft:isSmallScreen?"5px":"0",
+                  }}> 
             {title}
       </Typography>
       {viewMode === "list" ? (
@@ -52,4 +69,4 @@ function PoemList({ viewMode, title, ListWidth, ListHeight }) {
   );
 }
 
-export default PoemList;
+export default React.memo(PoemList);

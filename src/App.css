@@ -5,8 +5,8 @@
   top: 2%;
   left: 50%;
   transform: translate(-50%, -3%);
-  height: 99dvh;
-  width: 98dvw;
+  height: 99%;
+  width: 98%;
   padding: 10px;
   overflow: hidden;
 }
@@ -18,16 +18,13 @@
 
 .app-parts {
   display: flex;
-  flex-direction: row;
+  justify-content: flex-start;
+  position: relative;
+  
 }
 @media (max-width: 600px) {
   .App {
     flex-direction: column;
-  }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
   }
 }
 
@@ -39,6 +36,7 @@
   justify-content: flex-start;
   font-size: calc(10px + 2vmin);
   width: 100%;
+  position: sticky;
   top: 0;
   padding: 0;
   margin: 0;
@@ -47,18 +45,32 @@
 .App-link {
   color: #61dafb;
 }
+.poetry-calendar{
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+  width: 25%;
+}
 .fab-and-title{
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   }
+
 .poetry-calendar-top{
   display: flex;
   flex-direction: column;
+  padding-bottom: 2dvh;
 }
 .poetry-calendar-bottom{
   display: flex;
   flex-direction: column;
+}
+
+.poems-of{
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 @keyframes App-logo-spin {
   from {

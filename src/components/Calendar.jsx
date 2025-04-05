@@ -16,7 +16,8 @@ function Calendar (props) {
   const [subHeaderTop, setSubheaderTop]=React.useState();
   const [numRows, setNumRows]=React.useState();
   const {complementaryColor,majorColor, calendarWidth,calWidthUnits,
-          calendarHeight,calHeightUnits}=useAppContext();
+          calendarHeight,calHeightUnits,}=useAppContext();
+
 
   const getCurrentMonthDates = useMemo(() => {
     return (year, month) => {
@@ -72,7 +73,6 @@ function Calendar (props) {
     };
   }, []);
   
-
   React.useEffect(()=>{
     if (headerRef.current){
       setSubheaderTop(headerRef.current.offsetHeight)
@@ -187,7 +187,6 @@ function Calendar (props) {
            style={{ top: `${subHeaderTop}px`,
                     gridTemplateColumns: `repeat(7, ${colWidth}dvw)`,
                 }}
-          key={nanoid()}
       >
           <span>Sun</span>
           <span>Mon</span>
@@ -208,20 +207,22 @@ function Calendar (props) {
                       month === today.getMonth() && 
                       year === today.getFullYear();
             const isLastDayOfWeek=date.date===getLastDayOfWeek(year,month, date.date);
-
+            // const sKey=React.memo(nanoid()+index);
+            
             return(
                   <div key={nanoid()} 
                         className={`cell`}
                   >
                       <div  className={`fill-cell`}>
                             <DayCard
+                                // key={sKey}
+                                // id={sKey}
                                 day={date.date}
                                 monthName={monthName}
                                 month={month}
                                 year={year}
                                 isToday={isToday}
                                 isLastDayOfWeek={isLastDayOfWeek}
-                                onDayCardData={props.onDayCardData}  
                             />
                       </div>
                   </div>

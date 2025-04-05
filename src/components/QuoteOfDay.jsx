@@ -9,7 +9,7 @@ const QuoteOfDay = React.memo(({daysQuote, lumens, isExpanded})=>{
         alignItems:isSmallScreen? 'center':'flex-end', // Always align to the bottom
         bottom: isSmallScreen?'0':'20px',
         width: isSmallScreen ? '100dvw' : '300px', // Full width on small screens, auto on large
-        top: isSmallScreen ? '88%' : '90%', 
+        top: isSmallScreen ? '89%' : '90%', 
         // transform: isSmallScreen ? 'translateY(-150%)' : 'translateY(-150)', 
         textAlign:isSmallScreen?"center":"left",
     };
@@ -26,8 +26,8 @@ const QuoteOfDay = React.memo(({daysQuote, lumens, isExpanded})=>{
               boxShadow: `0px 10px 10px ${complementaryColor}`,
               fontWeight:'light',
               fontStyle:'normal',
-              fontSize:14,
-              padding:'10px',
+              fontSize:'16px',
+              padding:isSmallScreen?'2px':'10px',
               left: '100%', 
               transform:'translateX(-100%)',
               zIndex:5,      
@@ -39,4 +39,4 @@ const QuoteOfDay = React.memo(({daysQuote, lumens, isExpanded})=>{
     )
 })
 
-export default QuoteOfDay
+export default React.memo(QuoteOfDay);

@@ -68,4 +68,4 @@ function CalendarHeader({ currentYear, currentMonth, onDateChange }) {
     );
 }
 
-export default CalendarHeader;
+export default React.memo(CalendarHeader);
